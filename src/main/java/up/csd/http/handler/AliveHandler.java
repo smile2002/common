@@ -1,6 +1,6 @@
 package up.csd.http.handler;
 
-import up.csd.http.server.HttpContext;
+import up.csd.http.server.Http2JsonContext;
 import up.csd.http.server.UrlHandler;
 
 /**
@@ -14,7 +14,7 @@ public class AliveHandler extends UrlHandler {
     }
 
     @Override
-    public void service(HttpContext context) throws Exception {
+    public void service(Http2JsonContext context) throws Exception {
         responseText(context, "YES!");
     }
 }

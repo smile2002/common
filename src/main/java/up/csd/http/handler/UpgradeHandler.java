@@ -2,7 +2,7 @@ package up.csd.http.handler;
 
 import up.csd.core.SysLogger;
 import up.csd.core.ZDogsCode;
-import up.csd.http.server.HttpContext;
+import up.csd.http.server.Http2JsonContext;
 import up.csd.http.server.UrlHandler;
 import up.csd.json.server.SeverState;
 import up.csd.util.ZDogsUtil;
@@ -18,7 +18,7 @@ public class UpgradeHandler extends UrlHandler {
     }
 
     @Override
-    public void service(HttpContext context) throws Exception {
+    public void service(Http2JsonContext context) throws Exception {
         String uri = context.httpRequest.uri();
 
         if (uri.endsWith("?geli")) { // 隔离本服务节点

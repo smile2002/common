@@ -6,8 +6,8 @@ import up.csd.core.EasyMap;
 import up.csd.json.codec.Message;
 import up.csd.json.server.AbstractJsonProcessor;
 import up.csd.json.server.JsonServer;
-import up.csd.json.task.JsonAsyncTask;
-import up.csd.json.task.JsonAsyncContext;
+import up.csd.json.task.AsyncTask4Json;
+import up.csd.json.task.AsyncContext4Json;
 import up.csd.util.LogIdUtil;
 
 /**
@@ -20,14 +20,14 @@ public class MidServer {
         server.bindProcessor("consume", new AbstractJsonProcessor() {
             @Override
             public void process(ChannelHandlerContext ctx, Message reqMap) {
-                JsonAsyncContext asyncContext = new JsonAsyncContext(ctx, reqMap) {
+                AsyncContext4Json asyncContext = new AsyncContext4Json(ctx, reqMap) {
                     @Override
                     public String logId() {
                         return this.reqMsg.logId();
                     }
                 };
                 AsyncFlow flow = new AsyncFlow();
-                flow.first(new JsonAsyncTask() {
+                flow.first(new AsyncTask4Json() {
                     @Override
                     public void doo() throws Exception {
                         System.out.println("Execute doo()...");
@@ -39,8 +39,8 @@ public class MidServer {
                     }
                     @Override
                     public void callback() throws Exception {
-                        JsonAsyncContext ctx = this.context();
-                        ctx.message();
+                        AsyncContext4Json ctx = this.context();
+                        ctx.serverResponse();
                         EasyMap respMap = new EasyMap();
                         respMap.put("result", "0");
                         respMap.put("result_string", "resp from midsvr");

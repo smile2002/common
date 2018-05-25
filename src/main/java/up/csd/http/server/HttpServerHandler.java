@@ -58,7 +58,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
 
-        HttpContext context = new HttpContext(ctx, request, counter);
+        Http2JsonContext context = new Http2JsonContext(ctx, request, counter);
 
         try {
             String uri = request.uri();

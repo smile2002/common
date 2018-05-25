@@ -7,27 +7,34 @@ import up.csd.json.codec.Message;
 /**
  * Created by Smile on 2018/5/22.
  */
-public abstract class JsonAsyncContext implements AsyncContext {
+public abstract class AsyncContext4Json implements AsyncContext {
 
     public ChannelHandlerContext channelContext;
-    public Message reqMsg;
+    private Message reqMsg;
     private Message respMsg;
 
-    public JsonAsyncContext() { }
+    public AsyncContext4Json() { }
 
-	public JsonAsyncContext(ChannelHandlerContext channelContext, Message reqMsg) {
+	public AsyncContext4Json(ChannelHandlerContext channelContext, Message reqMsg) {
         this.channelContext = channelContext;
         this.reqMsg = reqMsg;
     }
 
     @Override
-    public <T> void message(T message) {
+    public <R> void clientRequest(R request) { reqMsg = (Message) request; }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <R> R clientRequest() {return (R) reqMsg; }
+
+    @Override
+    public <T> void serverResponse(T message) {
         respMsg = (Message) message;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T message() {
+    public <T> T serverResponse() {
         return (T) respMsg;
     }
 }

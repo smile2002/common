@@ -2,7 +2,7 @@ package up.csd.http.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.util.CharsetUtil;
-import up.csd.http.server.HttpContext;
+import up.csd.http.server.Http2JsonContext;
 import up.csd.http.server.UrlHandler;
 
 /**
@@ -16,7 +16,7 @@ public class EchoHandler extends UrlHandler {
     }
 
     @Override
-    public void service(HttpContext context) throws Exception {
+    public void service(Http2JsonContext context) throws Exception {
         ByteBuf buf = context.httpRequest.content();
         String reqContent = buf.toString(CharsetUtil.UTF_8);
         responseText(context, reqContent);

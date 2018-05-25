@@ -5,24 +5,14 @@ package up.csd.async;
  */
 
 public interface AsyncContext {
-    /**
-     * 用来记录日志的ID
-     */
-    public abstract String logId();
+    /** 记录全局日志ID **/
+    String logId();
 
-    /**
-     * 重写该方法用于设置回调方法需要的异步处理结果
-     * @param message
-     */
-    public default <T> void message(T message) {
-        // 异步任务需要重写该方法获取上一部返回
-    }
+    /** 设置(及获取)客户端原始请求 **/
+    default <R> void clientRequest(R message) { }
+    default <R> R clientRequest() { return null; }
 
-    /**
-     * 重写该方法获取回调方法需要的上一步处理结果
-     */
-    public default <T> T message() {
-        // 异步任务需要重写该方法获取上一部返回
-        return null;
-    }
+    /** 设置(及获取)回调方法需要的最近一次异步处理结果 **/
+    default <T> void serverResponse(T message) { }
+    default <T> T serverResponse() { return null; }
 }

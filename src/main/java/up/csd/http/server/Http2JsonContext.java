@@ -10,7 +10,7 @@ import up.csd.util.LogIdUtil;
 /**
  * Created by Smile on 2018/5/23.
  */
-public class HttpContext implements AsyncContext {
+public class Http2JsonContext implements AsyncContext {
 
     public Counter counter;
 
@@ -21,7 +21,7 @@ public class HttpContext implements AsyncContext {
 
     private Message reqMsg;
 
-    public HttpContext(ChannelHandlerContext reqChannel, FullHttpRequest request, Counter counter) {
+    public Http2JsonContext(ChannelHandlerContext reqChannel, FullHttpRequest request, Counter counter) {
         this.logId = LogIdUtil.genAndSetMdc(LogIdUtil.SYS_ID_RCV);
         this.startTime = System.currentTimeMillis();
         this.reqChannel = reqChannel;
@@ -36,13 +36,13 @@ public class HttpContext implements AsyncContext {
     }
 
     @Override
-    public <T> void message(T message) {
+    public <T> void serverResponse(T message) {
         reqMsg = (Message) message;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T message() {
+    public <T> T serverResponse() {
         return (T) reqMsg;
     }
 }

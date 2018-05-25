@@ -5,8 +5,8 @@ import org.apache.log4j.Logger;
 import up.csd.async.AsyncFlow;
 import up.csd.core.EasyMap;
 import up.csd.json.codec.Message;
-import up.csd.json.task.JsonAsyncTask;
-import up.csd.json.task.JsonAsyncContext;
+import up.csd.json.task.AsyncTask4Json;
+import up.csd.json.task.AsyncContext4Json;
 import up.csd.util.LogIdUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -28,7 +28,7 @@ public class SyncClient {
 
     public static EasyMap send(String cmd, String dataCenter, EasyMap reqMap, int timeout, TimeUnit timeUnit) {
         try {
-            AsyncFlow flow = AsyncFlow.first(new JsonAsyncTask() {
+            AsyncFlow flow = AsyncFlow.first(new AsyncTask4Json() {
                 @Override
                 public void doo() throws Exception {
                     sendReq(cmd, reqMap);
@@ -37,7 +37,7 @@ public class SyncClient {
                 public void callback() throws Exception {
                     // nothing to do here
                 }
-            }).context(new JsonAsyncContext() {
+            }).context(new AsyncContext4Json() {
                 @Override
                 public String logId() {
                     String logId = reqMap.getAsString("__log_id__");
@@ -47,7 +47,7 @@ public class SyncClient {
 
             flow.start().sync();
 
-            Message upHeadMessage = flow.context().message();
+            Message upHeadMessage = flow.context().serverResponse();
             Validate.notNull(upHeadMessage);
             return upHeadMessage.toEasyMap();
 

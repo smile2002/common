@@ -21,7 +21,7 @@ public abstract class UrlHandler {
 
     protected static final Logger logger = Logger.getLogger(UrlHandler.class);
 
-    public abstract void service(HttpContext context) throws Exception;
+    public abstract void service(Http2JsonContext context) throws Exception;
 
 
     private final Map<HttpMethod, Map<String, Func>> funcs = new HashMap<>();
@@ -39,7 +39,7 @@ public abstract class UrlHandler {
         }
         funcsOfMethod.put(uriPattern, func);
     }
-    public void processReq(HttpContext context, EasyMap reqMap) {
+    public void processReq(Http2JsonContext context, EasyMap reqMap) {
         String uri = context.httpRequest.uri();
         HttpMethod method = context.httpRequest.method();
         Map<String, Func> funcsOfTheMethod = funcs.get(method);
@@ -87,7 +87,7 @@ public abstract class UrlHandler {
         return pathVariables;
     }
     public interface Func {
-        void doIt(HttpContext context, Map<String, String> pathVariables, EasyMap reqMap);
+        void doIt(Http2JsonContext context, Map<String, String> pathVariables, EasyMap reqMap);
     }
 
 
@@ -124,42 +124,42 @@ public abstract class UrlHandler {
         return httpRequest.content().toString(charset);
     }
 
-    public static void handle404(HttpContext context) {
+    public static void handle404(Http2JsonContext context) {
         responseError(context, HttpResponseStatus.NOT_FOUND, "Not Found.");
     }
 
-    public static void handle405(HttpContext context, HttpMethod method) {
+    public static void handle405(Http2JsonContext context, HttpMethod method) {
         String info = "Method[" + method.name() + "] is not supported!";
         responseError(context, HttpResponseStatus.METHOD_NOT_ALLOWED, info);
     }
 
-    public static void handle502(HttpContext context,String error_des) {
+    public static void handle502(Http2JsonContext context, String error_des) {
         responseError(context, HttpResponseStatus.BAD_GATEWAY, error_des);
     }
 
-    public static void responseError(HttpContext context, HttpResponseStatus status, String text) {
+    public static void responseError(Http2JsonContext context, HttpResponseStatus status, String text) {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, status,
                 Unpooled.copiedBuffer(text, CharsetUtil.UTF_8));
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
         sendResponse(context, response);
     }
 
-    public static void responseText(HttpContext context, String textRespContent) {
+    public static void responseText(Http2JsonContext context, String textRespContent) {
         responseString(context, textRespContent, "text/plain; charset=UTF-8");
     }
 
-    public static void responseXML(HttpContext context, String textRespContent) {
+    public static void responseXML(Http2JsonContext context, String textRespContent) {
         responseString(context, textRespContent, "text/xml; charset=UTF-8");
     }
 
-    public static void responseJSON(HttpContext context, HttpResponseStatus status, String jsonResp) {
+    public static void responseJSON(Http2JsonContext context, HttpResponseStatus status, String jsonResp) {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, status,
                 Unpooled.copiedBuffer(jsonResp, CharsetUtil.UTF_8));
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json;charset=UTF-8");
         sendResponse(context, response);
     }
 
-    public static void responseString(HttpContext context, String textRespContent, String contentType) {
+    public static void responseString(Http2JsonContext context, String textRespContent, String contentType) {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 context.httpRequest.decoderResult().isSuccess() ?
                         HttpResponseStatus.OK : HttpResponseStatus.BAD_REQUEST,
@@ -175,13 +175,13 @@ public abstract class UrlHandler {
         sendResponse(context, response);
 
     }
-    public static void sendRedirect(HttpContext context, String newUri) {
+    public static void sendRedirect(Http2JsonContext context, String newUri) {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.FOUND);
         response.headers().set(HttpHeaderNames.LOCATION, newUri);
         sendResponse(context, response);
     }
 
-    public static void sendResponse(HttpContext context, FullHttpResponse response) {
+    public static void sendResponse(Http2JsonContext context, FullHttpResponse response) {
 
         boolean keepAlive = HttpUtil.isKeepAlive(context.httpRequest);
         if (keepAlive) {

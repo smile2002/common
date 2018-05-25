@@ -115,7 +115,7 @@ public class MagpieServer {
         String cmd = reqMap.getAsString("cmd");
         AbstractMagpieProcessor processor = processorMapping.get(cmd);
 //        if (processor == null) {
-//            /** TODO: response meaningful message **/
+//            /** TODO: response meaningful serverResponse **/
 //            return;
 //        }
         processor.process(ctx, reqMap);

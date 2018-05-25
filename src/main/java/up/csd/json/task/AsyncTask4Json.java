@@ -15,7 +15,7 @@ import up.csd.util.ZDogsUtil;
 /**
  * Created by Smile on 2018/5/22.
  */
-public abstract class JsonAsyncTask extends AsyncTask {
+public abstract class AsyncTask4Json extends AsyncTask {
     private String cmd;
     private long reqTime;
     private AsyncClient asyncClient;

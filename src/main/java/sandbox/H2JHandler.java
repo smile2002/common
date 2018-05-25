@@ -3,7 +3,7 @@ package sandbox;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.util.CharsetUtil;
 import up.csd.async.AsyncFlow;
-import up.csd.http.server.HttpContext;
+import up.csd.http.server.Http2JsonContext;
 import up.csd.http.server.UrlHandler;
 
 import java.util.HashMap;
@@ -17,10 +17,10 @@ public class H2JHandler extends UrlHandler {
 
 
     @Override
-    public void service(HttpContext context) throws Exception {
+    public void service(Http2JsonContext context) throws Exception {
         String reqContent = parseContentAsString(context.httpRequest, CharsetUtil.UTF_8);
         AsyncFlow
-                .first(new H2JTask())
+                .first(new H2JTask4Json())
                 .context(context)
                 .start();
     }

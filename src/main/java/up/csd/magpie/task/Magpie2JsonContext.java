@@ -8,28 +8,28 @@ import up.csd.json.codec.Message;
 /**
  * Created by Smile on 2018/5/25.
  */
-public abstract class MagpieAsyncContext implements AsyncContext {
+public abstract class Magpie2JsonContext implements AsyncContext {
 
     public ChannelHandlerContext channelContext;
     public MagpieRequest reqMsg;
 
     private Message respMsg;
 
-    public MagpieAsyncContext() { }
+    public Magpie2JsonContext() { }
 
-    public MagpieAsyncContext(ChannelHandlerContext channelContext, MagpieRequest reqMsg) {
+    public Magpie2JsonContext(ChannelHandlerContext channelContext, MagpieRequest reqMsg) {
         this.channelContext = channelContext;
         this.reqMsg = reqMsg;
     }
 
     @Override
-    public <T> void message(T message) {
+    public <T> void serverResponse(T message) {
         respMsg = (Message) message;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T message() {
+    public <T> T serverResponse() {
         return (T) respMsg;
     }
 }

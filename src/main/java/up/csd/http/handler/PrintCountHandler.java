@@ -1,7 +1,7 @@
 package up.csd.http.handler;
 
 import up.csd.core.Counter;
-import up.csd.http.server.HttpContext;
+import up.csd.http.server.Http2JsonContext;
 import up.csd.http.server.UrlHandler;
 
 /**
@@ -15,7 +15,7 @@ public class PrintCountHandler extends UrlHandler {
     }
 
     @Override
-    public void service(HttpContext context) throws Exception {
+    public void service(Http2JsonContext context) throws Exception {
         Counter counter = context.counter;
         StringBuilder buf = new StringBuilder();
         buf.append("Current connections amount is " + counter.CONN_COUNT.get());

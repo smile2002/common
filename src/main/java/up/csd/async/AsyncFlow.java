@@ -298,7 +298,7 @@ public class AsyncFlow {
                     return;
                 }
 
-                task.context().message(message);
+                task.context().serverResponse(message);
                 task.doCallback();
             }
         });
