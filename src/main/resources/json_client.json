@@ -1,0 +1,23 @@
+{
+  "version":"1",
+  "magicNum":"19810313",
+  "clientId":"99",
+
+  "useBigEndian":"false",
+  "svrCharSet":"UTF-8",
+  "pingPeriod":"2000",
+  "reconnectPeriod":"30000",
+  "defaultDataCenter":"SH",
+  "svrConfLst": [
+    {
+      "svrNm":"sv1",
+      "dataCenter":"SH",
+      "maxReqNum":"2000",
+      "maxPingNum":"2",
+      "connNum":"2",
+      "maxTimeOutReqNum":"2000",
+      "cmdLst":"bill_no",
+      "addrLst":"127.0.0.1:9600"
+    }
+  ]
+}
